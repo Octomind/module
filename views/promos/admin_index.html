@@ -1,0 +1,18 @@
+<h3>Promo</h3><br/>
+<table class="table table-striped" style="width: 400px;">
+<?php foreach($data as $d) { ?>
+    <tr>
+        <td><b><?=$d['product_name']?></b></td>
+        <td align="right">
+            <a href="/admin/promos/edit/<?=$d['id']?>"><button class="btn btn-sm btn-primary">edit</button></a>
+            <a href="/admin/promos/delete/<?=$d['id']?>" onclick="return confirmDelete();"><button class="btn btn-sm btn-warning">delete</button></a>
+        </td>
+    </tr>
+<?php } ?>
+</table>
+
+<br/>
+
+<div>
+    <a href="/admin/promos/add/"><button class="btn btn-sm btn-success">New promo</button></a>
+</div>

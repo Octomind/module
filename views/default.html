@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><?=Config::get('site_name')?></title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="/js/main.js"></script>
+  <style>
+  .carousel-inner > .item > img,
+  .carousel-inner > .item > a > img {
+      width: 60%;
+      margin: auto;
+  }
+  </style>
+</head>
+<body style="background-color:<?=App::$dat['color'][1]['value']; ?>">
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color:<?=App::$dat['color'][0]['value']; ?>">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/"><?=Config::get('site_name')?></a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li>
+						   <div class="dropdown">
+							 <!--  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="background:#222; margin-top:8px;border-color:#222;"> --> <a style="background:<?=App::$dat['color'][0]['value']; ?>; margin-top:8px;border-width:none;" id="dLabel" role="button" data-toggle="dropdown" class="btn  dropdown-toggle">News
+							  <span class="caret"></span></a>
+							  <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+							  <?php $c=App::$nav; foreach($c['category'] as $category) {?>
+								<li class="dropdown-submenu"><a href="/categories/view/<?=$category['id']?>"><?=$category['name']?></a>
+									<ul class="dropdown-menu">
+										<?php foreach($category['pages'] as $p) { ?>
+											<li><a href="/pages/view/<?=$p['id']?>"><?=$p['title']?></a></li>
+										<?php }?>
+									</ul>
+								</li>
+							  <?php } ?>
+							  </ul>
+							</div>
+	
+					</li>
+					<li <?php if( App::getRouter()->getController() == 'filter' ) {?>class="active"<?php } ?>><a href="/filter/">Search filter</a></li>
+					<li>
+						<?php if ( Session::get('login') ) { ?>
+							<a href="/users/logout"><?=Session::get('login')?> - Logout</a>
+						<?php } else {?>
+							<a href="/users/login/">Login</a></li>
+						<?php } ?>
+					<li>
+						    <form action="search.php" method="post" name="form" onsubmit="return false;" class="navbar-form navbar-right" role="search">
+								<div class="form-group">
+									<div class="btn-group">
+										<input type="text" autocomplete="off" id="search" data-toggle="dropdown" class="form-control"
+											   placeholder="looking for tags"> </input>
+										<ul id="resSearch" class="dropdown-menu"></ul>
+									</div>
+								</div>
+							</form>
+					</li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+	
+			<div class="col-sm-2">
+			<br><br><br>
+                <?php for ($prom = App::$dat['promo'], $cnt = count(App::$dat['promo']), $i = 0; $i < $cnt; $i++): ?>
+                <?php if ($i == ceil($cnt / 2)) : ?>
+            </div>
+            <div class="col-sm-2 col-sm-push-8">
+			<br><br><br>
+                <?php endif; ?>
+                <div class="banner" data-placement="right" data-toggle="tooltip" title="Купон на скидку...- 10%">
+					<p><?= $prom[$i]['product_name'] ?></p>
+                    <p>Price: <span><?= $prom[$i]['price'] ?></span></p>
+                    <p id="<?= $prom[$i]['id'] ?>">
+                        <a href="" target="_blanc">reference<?= $prom[$i]['id'] ?></a>
+                    </p>
+					<p>Visits: <?= $prom[$i]['cnt'] ?></p>
+                </div>
+                <?php endfor; ?>
+            </div>
+	
+			<div class="col-sm-8 col-sm-pull-2">
+				<div class="starter-template">
+
+					<?php if( Session::hasFlash() ){ ?>
+					<div class="alert alert-info" role="alert">
+						<?php Session::flash(); ?>
+					</div>
+					<?php } ?>
+
+					<?=$data['content']?>
+				</div>
+			</div>
+		</div>
+    </div>
+		
+	<div id="overlay" hidden>
+    <div class="popup">
+        <h3>Sign for news:</h3>
+<form action="" method="post">
+    <input type="text" class="form-control" name="name" placeholder="Your Name" /><br/>
+    <input type="text" class="form-control" name="email" placeholder="Your Email" /><br/>
+    <button class="btn btn-lg btn-primary btn-block" onclick="document.getElementById('overlay').style.display='none';">Sign</button>
+</form>
+        <button class="close" title="Закрыть" onclick="document.getElementById('overlay').style.display='none';"></button>
+    </div>
+</div>
+<script type="text/javascript">
+	var delay_popup = 5000;
+	setTimeout("document.getElementById('overlay').style.display='block'", delay_popup);
+</script>
+<script>
+function closeOrNot(e) {
+if(!e) e = window.event;
+e.cancelBubble = true;
+e.returnValue = 'Вы действительно хотите уйти со страницы?\nВнимание: данные могут не сохраниться!\n ';
+if (e.stopPropagation) {
+e.stopPropagation();
+e.preventDefault();
+}
+}
+window.onbeforeunload=closeOrNot;
+</script>
+</body>
+</html>

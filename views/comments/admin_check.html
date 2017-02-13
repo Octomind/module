@@ -1,0 +1,21 @@
+<h3>Unchecked comments</h3><br>
+<a href="/admin/comments/index/" class="btn btn-sm btn-default">All</a><br><br>
+<table class="table table-striped" style="width: 400px;">
+	<tr>
+		<td>Page</td>
+		<td>Category</td>
+		<td>User</td>
+		<td></td>
+	</tr>
+<?php foreach($data['comments'] as $c) { ?>
+    <tr>
+        <td><b><?=$c['title_news']?></b></td>
+		<td><b><?=$c['category_name']?></b></td>
+		<td><b><?=$c['login']?></b></td>
+        <td align="right">
+            <a href="/admin/comments/edit/<?=$c['id_comment']?>"><button class="btn btn-sm btn-primary">edit</button></a>
+            <a href="/admin/comments/delete/<?=$c['id_comment']?>" onclick="return confirmDelete();"><button class="btn btn-sm btn-warning">delete</button></a>
+        </td>
+    </tr>
+<?php } ?>
+</table>

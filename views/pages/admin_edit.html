@@ -1,0 +1,48 @@
+<h3>Edit page</h3><br/>
+<form method="post" action="" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="<?=$data['page']['id']?>" />
+
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" value="<?=$data['page']['title']?>" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="image">Image</label>
+        <input type="file" id="image" name="image" value="<?=$data['page']['image']?>">
+    </div>
+    <div class="form-group">
+        <label for="content">Content</label>
+        <textarea name="content" id="content" class="form-control"><?=$data['page']['content']?></textarea>
+    </div>
+    <div class="form-group">
+        <label for="is_published">Publish?</label>
+        <input type="checkbox" name="is_published" id="is_published" <?php if( $data['page']['is_published'] ) { ?>checked="checked" <?php } ?> />
+    </div>
+    <div class="form-group">
+        <label for="categories">News category</label>
+		<select id="categories" name="categories" class="form-control">
+        <?php foreach($data['categories'] as $cat) { ?>
+        <option value="<?=$cat['id']?>"
+        <?php if($cat['id'] == $data['page']['categories_id']){?> selected="selected" <?php } ?> >
+        <?=$cat['name']?>
+        </option>
+        <?php }?>    
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="is_analitic">Analitic?</label>
+        <input type="checkbox" id="is_analitic" name="is_analitic"
+               <?php if ($data['page']['is_analitic']) { ?>checked="checked" <?php } ?> />
+    </div>
+	<div class="checkbox">
+        <p>Tags</p>
+        <?php foreach ($data['tags'] as $key => $value): ?>
+            <label class="checkbox-inline">
+                <input type="checkbox" name="tags" <?= isset($data['tags'][$key]) ? 'checked' : ''; ?>
+                       value="<?= $key; ?>"><?= $value; ?>
+            </label>
+
+        <?php endforeach; ?>
+    </div>
+    <input type="submit" class="btn btn-success" />
+</form>

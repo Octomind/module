@@ -1,0 +1,87 @@
+<div class="col-sm-12">
+  <br>
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+      <li data-target="#myCarousel" data-slide-to="3"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+
+      <div class="item active">
+        <img src="/img/<?=$data['pages'][0]['image']?>" alt="Chania" width="460" height="345">
+        <div class="carousel-caption">
+          <p><a href="/pages/view/<?=$data['pages'][0]['id']?>"><?=$data['pages'][0]['title']?></a></p>
+        </div>
+      </div>
+
+      <div class="item">
+        <img src="/img/<?=$data['pages'][1]['image']?>" alt="Chania" width="460" height="345">
+        <div class="carousel-caption">
+          <p><a href="/pages/view/<?=$data['pages'][1]['id']?>"><?=$data['pages'][1]['title']?></a></p>
+        </div>
+      </div>
+    
+      <div class="item">
+        <img src="/img/<?=$data['pages'][2]['image']?>" alt="Flower" width="460" height="345">
+        <div class="carousel-caption">
+          <p><a href="/pages/view/<?=$data['pages'][2]['id']?>"><?=$data['pages'][2]['title']?></a></p>
+        </div>
+      </div>
+
+      <div class="item">
+        <img src="/img/<?=$data['pages'][3]['image']?>" alt="Flower" width="460" height="345">
+        <div class="carousel-caption">
+          <p><a href="/pages/view/<?=$data['pages'][3]['id']?>"><?=$data['pages'][3]['title']?></a></p>
+        </div>
+      </div>
+  
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
+
+
+<div>
+    <?php foreach($data['category'] as $category) {?>
+        <h3><a href="/categories/view/<?=$category['id']?>">
+            <?=$category['name']?>
+        </a></h3>
+		<ul>
+        <?php foreach($category['pages'] as $p) { ?>
+            <li><a href="/pages/view/<?=$p['id']?>"><?=$p['title']?></li></a>
+        <?php }?>
+		</ul>
+    <?php } ?>
+</div>
+
+
+<br><hr>
+<b>Top news</b>
+<ul>
+    <?php foreach ($data['news'] as $n): ?>
+            <li><a href="/pages/view/<?=$n['id_pages']?>"><?=$n['title']?></a>  >>>  <?=$n['cnt']?> comments</li>
+    <?php endforeach; ?>
+</ul>
+<hr>
+
+<br><hr>
+<b>Top users</b>
+<ul>
+    <?php foreach ($data['users'] as $u): ?>
+            <li><a href="/comments/user/<?=$u['id_user']?>"><?=$u['login']?></a>  >>>  <?=$u['cnt']?> comments</li>
+    <?php endforeach; ?>
+</ul><hr>

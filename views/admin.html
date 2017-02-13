@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><?=Config::get('site_name')?></title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/admin.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body  style="background-color:<?= $data['color'][1]['value'];  ?>">
+
+<nav class="navbar navbar-inverse navbar-fixed-top" style="background-color:<?= $data['color'][0]['value']; ?>">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/"><?=Config::get('site_name')?> - <?=__('lng.admin', 'Admin Section')?></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <?php if ( Session::get('login') ) { ?>
+            <ul class="nav navbar-nav">
+                <li <?php if( App::getRouter()->getController() == 'pages' ) {?>class="active"<?php } ?>><a href="/admin/pages/">News</a></li>
+				<li <?php if( App::getRouter()->getController() == 'categories' ) {?>class="active"<?php } ?>><a href="/admin/categories/">Categories</a></li>
+				<li <?php if( App::getRouter()->getController() == 'tag' ) {?>class="active"<?php } ?>><a href="/admin/tag/">Tags</a></li>
+				<li <?php if( App::getRouter()->getController() == 'comments' ) {?>class="active"<?php } ?>><a href="/admin/comments/">Comments</a></li>
+				<li <?php if( App::getRouter()->getController() == 'promos' ) {?>class="active"<?php } ?>><a href="/admin/promos/">Promos</a></li>
+				<li <?php if( App::getRouter()->getController() == 'backgroundcolor' ) {?>class="active"<?php } ?>><a href="/admin/backgroundcolor">Background</a></li>
+                <li><a href="/admin/users/logout">Logout</a></li>
+            </ul>
+            <?php } ?>
+        </div>
+    </div>
+</nav>
+
+<div class="container" >
+
+    <div class="starter-template">
+
+        <?php if( Session::hasFlash() ){ ?>
+            <div class="alert alert-info" role="alert">
+                <?php Session::flash(); ?>
+            </div>
+        <?php } ?>
+
+        <?=$data['content']?>
+		
+		
+    </div>
+
+</div>
+<!-- <script>
+$(window).onbeforeunload( function () { alert("пока!"); } );
+</script> -->
+</body>
+</html>

@@ -1,0 +1,17 @@
+<h3>Tags</h3><br/>
+<table class="table table-striped" style="width: 400px;">
+<?php foreach($data['tags'] as $t) { ?>
+    <tr>
+        <td><b><?=$t['tag_name']?></b></td>
+        <td align="right">            
+            <a href="/admin/tag/delete/<?=$t['id_tag']?>" onclick="return confirmDelete();"><button class="btn btn-sm btn-warning">delete</button></a>
+        </td>
+    </tr>
+<?php } ?>
+</table>
+
+<br/>
+
+<div>
+    <a href="/admin/tag/add/"><button class="btn btn-sm btn-success">New Tag</button></a>
+</div>

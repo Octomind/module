@@ -1,0 +1,37 @@
+<h3><?=$data['comments'][0]['login']?></h3><br>
+
+<?php
+$page = isset($_GET['page']) ? $_GET['page'] : 1 ;
+$countButton = count($data['comments']);
+if($page == 1){$id = 0;} else { $id = $page * 5 - 5;}
+for($i=0; $i<5; $i++, $id++){
+if(empty($data['comments'][$id])){
+break;
+}?>
+	<p>
+	<u><?=$data['comments'][$id]['title']?>:</u><br>
+	<?=$data['comments'][$id]['comment']?>
+	</p>
+
+<?php } ?>
+</table>
+
+<div class="btn-group pages">
+    <?php
+        $buttons = new Pagination($page, $countButton);
+
+        foreach($buttons->buttons as $button) {
+
+    if($button->isActive) { ?>
+
+    <a class="btn btn-primary"
+       href="/comments/user/<?=$data['comments'][0]['id_user'].'?page='.$button->page?>"><?=$button->text?></a>
+
+    <?php } else {?>
+    <span class="btn btn-primary disabled"><?=$button->text?></span>
+    <?php }}?>
+</div>
+
+<br><pre>
+<?php print_r ($data) ?>
+</pre>

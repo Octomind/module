@@ -1,0 +1,29 @@
+<h3>News by tag: <b><?=$data['tag'][0]['tag_name']?></b></h3>
+<?php
+$page = isset($_GET['page']) ? $_GET['page'] : 1 ;
+$countButton = count($data['news']);
+if($page == 1){$id = 0;} else { $id = $page * 5 - 5;}
+for($i=0; $i<5; $i++, $id++){
+if(empty($data['news'][$id])){
+break;
+}?>
+<p>
+    <a href="/pages/view/<?=$data['news'][$id]['id']?>"><?=$data['news'][$id]['title']?></a>
+</p>
+<?php } ?>
+
+<div class="btn-group pages">
+    <?php
+        $buttons = new Pagination($page, $countButton);
+
+        foreach($buttons->buttons as $button) {
+
+    if($button->isActive) { ?>
+
+    <a class="btn btn-primary"
+       href="/tag/view/<?=$data['tag'][0]['id_tag'].'?page='.$button->page?>"><?=$button->text?></a>
+
+    <?php } else {?>
+    <span class="btn btn-primary disabled"><?=$button->text?></span>
+    <?php }}?>
+</div>

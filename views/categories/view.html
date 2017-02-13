@@ -1,0 +1,29 @@
+<h3><?=$data['category']['name']?></h3>
+<?php
+$page = isset($_GET['page']) ? $_GET['page'] : 1 ;
+$countButton = count($data['pages']);
+if($page == 1){$id = 0;} else { $id = $page * 5 - 5;}
+for($i=0; $i<5; $i++, $id++){
+if(empty($data['pages'][$id])){
+break;
+}?>
+<p>
+    <a href="/pages/view/<?=$data['pages'][$id]['id']?>"><?=$data['pages'][$id]['title']?></a>
+</p>
+<?php } ?>
+
+<div class="btn-group pages">
+    <?php
+        $buttons = new Pagination($page, $countButton);
+
+        foreach($buttons->buttons as $button) {
+
+    if($button->isActive) { ?>
+
+    <a class="btn btn-primary"
+       href="/categories/view/<?=$data['category']['id'].'?page='.$button->page?>"><?=$button->text?></a>
+
+    <?php } else {?>
+    <span class="btn btn-primary disabled"><?=$button->text?></span>
+    <?php }}?>
+</div>

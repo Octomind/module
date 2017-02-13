@@ -1,0 +1,45 @@
+<h3>Comments</h3><br>
+<a href="/admin/comments/check/" class="btn btn-sm btn-default">Unchecked only</a><br><br>
+<table class="table table-striped" style="width: 400px;">
+	<tr>
+		<td>Page</td>
+		<td>Category</td>
+		<td>User</td>
+		<td></td>
+	</tr>
+
+<?php
+$page = isset($_GET['page']) ? $_GET['page'] : 1 ;
+$countButton = count($data['comments']);
+if($page == 1){$id = 0;} else { $id = $page * 5 - 5;}
+for($i=0; $i<5; $i++, $id++){
+if(empty($data['comments'][$id])){
+break;
+}?>
+    <tr>
+        <td><b><?=$data['comments'][$id]['title']?></b></td>
+		<td><b><?=$data['comments'][$id]['name']?></b></td>
+		<td><b><?=$data['comments'][$id]['login']?></b></td>
+        <td align="right">
+            <a href="/admin/comments/edit/<?=$data['comments'][$id]['id_comment']?>"><button class="btn btn-sm btn-primary">edit</button></a>
+            <a href="/admin/comments/delete/<?=$data['comments'][$id]['id_comment']?>" onclick="return confirmDelete();"><button class="btn btn-sm btn-warning">delete</button></a>
+        </td>
+    </tr>
+<?php } ?>
+</table>
+
+<div class="btn-group pages">
+    <?php
+        $buttons = new Pagination($page, $countButton);
+
+        foreach($buttons->buttons as $button) {
+
+    if($button->isActive) { ?>
+
+    <a class="btn btn-primary"
+       href="/admin/comments/index/?page=<?=$button->page?>"><?=$button->text?></a>
+
+    <?php } else {?>
+    <span class="btn btn-primary disabled"><?=$button->text?></span>
+    <?php }}?>
+</div>

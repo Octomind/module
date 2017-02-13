@@ -1,0 +1,72 @@
+<h1><?=$data['page'][0]['title']?></h1>
+<div><img src="/img/<?=$data['page'][0]['image']?>" alt="" width="400"></div>
+<div><?=$data['page'][0]['content']?></div>
+<br/>
+All visitors: <input value="<?= $data['page'][0]['cnt_visit']; ?>" id="all">
+<br/>
+Current visitiors: <input value="" id="read">
+<br/>
+<div>
+Tags<br/>
+    <?php if (isset($data['page']['tags'])): ?>
+            <?php foreach ($data['page']['tags'] as $key => $value): ?>
+            <a href="/tag/view/<?= $key; ?>"> <input type="button" class="btn btn-primary btn-xs" value="<?= $value; ?>"></a>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</div>
+<br/><hr><br/>
+Comments<br/>
+    <?php if (Session::get('login')) : ?>
+        <form method="post" id="comment_form" action="">
+            <input type='hidden' id='id_news' value='<?= $data['page'][0]['id'] ?>'>
+            <div class="form-group">
+                    <textarea rows="2" name="comment" class="form-control"></textarea>
+            </div>
+            <button type="submit" name="submit" class="btn btn-default btn-sm">Add comment</button>
+            <button type="reset" class="btn btn-default btn-sm">Cancel</button>
+        </form>
+    <?php else : ?>
+        Login for commenting.
+    <?php endif; ?>
+
+	<?php 
+	if ($data['comments']['count']) {
+	    unset($data['comments']['count']);		
+		function comm($comment, $level = 0){
+            static $result;
+            foreach ($comment as $item => $value) {
+                if ($level == 1) {
+                    $result .= "<div class='panel panel-default' style='margin-left: 50px;'>";
+                } else {
+                    $result .= "<div class='panel panel-default'>";
+                }
+                $result .= "<div class='panel-heading'>";
+                $result .= "<h3 class='panel-title'>";
+                $result .= "<a>{$value['login']}</a></h3> </div>";
+                $result .= "<div class='panel-body'>{$value['comment']}</div>";
+                $result .= "<div class='panel-footer' style='padding: 4px 15px; overflow: hidden;'>";
+                if (Session::get('login') && $level == 0) {
+                    $result .= "<div style='float: left'>";
+                    $result .= "<a id='answer' class='btn btn-default btn-xs'>Answer</a></div>";
+                }
+                $result .= "<div>";
+                $result .= "<input type='hidden' id='id_comment' value='{$value['id_comment']}'>";
+                $result .= "<input type='hidden' id='id_user' value='{$value['id_user']}'>";
+                $result .= "<button type='button' id='like' class='btn btn-default btn-xs'>
+                        +<span aria-hidden='true'>{$value['cnt_like']}</span></button>";
+                $result .= "<button type='button' id='dislike' class='btn btn-default btn-xs'>
+                        -<span aria-hidden='true'>{$value['cnt_dislike']}</span></button>";
+                $result .= "</div></div></div>";
+                if (isset($value['childs'])) {
+                    $level++;
+                    comm($value['childs'], $level);
+                    $level = 0;
+                } else {
+                }
+            }
+            return $result;
+        }
+		$comment = comm($data['comments']);
+        echo $comment;
+	}	
+    ?>
